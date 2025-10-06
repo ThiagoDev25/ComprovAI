@@ -8,8 +8,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Program.cs
+var cosmosConnection = Environment.GetEnvironmentVariable("COSMOSDB_CONNECTION");
+
+var databaseName = builder.Configuration["CosmosDb:DatabaseName"];
+var containerName = builder.Configuration["CosmosDb:ContainerName"];
+
 builder.Services.AddDbContext<ComprovAI.Data.ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseCosmos(cosmosConnection, databaseName, containerName));
 
 var app = builder.Build();
 
