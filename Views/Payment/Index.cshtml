@@ -49,6 +49,7 @@
                         <th>Valor</th>
                         <th>Tipo</th>
                         <th>Bandeira</th>
+                        <th>Ações</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -58,6 +59,13 @@
                             <td>@item.Value.ToString("C")</td>
                             <td>@item.Type</td>
                             <td>@item.CardBrand</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger btn-delete"
+                                        data-id="@item.Id"
+                                        data-type="@((int)item.Type)">
+                                    Excluir
+                                </button>
+                            </td>
                         </tr>
                     }
                     </tbody>
