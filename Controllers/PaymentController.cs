@@ -57,4 +57,18 @@ public class PaymentController : Controller
         await _paymentService.AddPaymentAsync(payment);
         return Ok();
     }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeletePaymentAsync([FromBody] int id)
+    {
+        try
+        {
+            
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
