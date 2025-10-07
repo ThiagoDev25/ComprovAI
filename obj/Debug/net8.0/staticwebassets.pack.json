@@ -181,6 +181,10 @@
       "PackagePath": "staticwebassets\\ComprovAI.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Thiago\\Documents\\Projetos\\Trabalho\\ComprovAI\\wwwroot\\Logo.png",
+      "PackagePath": "staticwebassets\\Logo.png"
+    },
+    {
       "Id": "C:\\Users\\Thiago\\Documents\\Projetos\\Trabalho\\ComprovAI\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

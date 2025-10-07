@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "uuZTSS1SYr+GcUgNlhSlO9lUdyWTQNyaEEDQFdG/jUU=",
+  "Hash": "50MwRZLXHp+FGxm7YomANXgCv18u5U6xQCaoPoo+v9U=",
   "Source": "ComprovAI",
   "BasePath": "_content/ComprovAI",
   "Mode": "Default",
@@ -2029,6 +2029,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\Thiago\\Documents\\Projetos\\Trabalho\\ComprovAI\\wwwroot\\Logo.png",
+      "SourceId": "ComprovAI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Thiago\\Documents\\Projetos\\Trabalho\\ComprovAI\\wwwroot\\",
+      "BasePath": "_content/ComprovAI",
+      "RelativePath": "Logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Logo.png"
     }
   ]
 }

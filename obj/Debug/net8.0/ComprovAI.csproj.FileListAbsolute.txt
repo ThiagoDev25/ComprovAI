@@ -164,3 +164,4 @@ C:\Users\Thiago\Documents\Projetos\Trabalho\ComprovAI\obj\Debug\net8.0\refint\Co
 C:\Users\Thiago\Documents\Projetos\Trabalho\ComprovAI\obj\Debug\net8.0\ComprovAI.pdb
 C:\Users\Thiago\Documents\Projetos\Trabalho\ComprovAI\obj\Debug\net8.0\ComprovAI.genruntimeconfig.cache
 C:\Users\Thiago\Documents\Projetos\Trabalho\ComprovAI\obj\Debug\net8.0\ref\ComprovAI.dll
+C:\Users\Thiago\Documents\Projetos\Trabalho\ComprovAI\obj\Debug\net8.0\ComprovAI.sourcelink.json
