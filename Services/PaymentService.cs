@@ -16,18 +16,21 @@ public class PaymentService : IPaymentService
 
     public async Task<double> GetTotalPaymentsAsync()
     {
-        try
+
+        var payments = await _context.Payments.ToListAsync();
+
+        if (payments.Count == 0)
         {
-            double total = await _context.Payments.SumAsync(p => p.Value);
-            if (total == 0)
-                throw new Exception("Não há pagamentos.");
-            return total;
+            return 0.0;
         }
-        catch (Exception ex)
+
+        double total = 0.0; 
+        foreach (var payment in payments)
         {
-            // Aqui você pode logar o erro ou tratar conforme necessário
-            throw new Exception($"Erro ao obter total de pagamentos: {ex.Message}");
-        }
+            total += payment.Value;
+        };
+
+        return total;
     }
 
 
