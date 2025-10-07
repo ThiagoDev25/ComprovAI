@@ -52,7 +52,7 @@
                         <th>Ações</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="paymentsTableBody">
                     @foreach (var item in Model)
                     {
                         <tr>
@@ -137,6 +137,38 @@
     } else {
     document.getElementById('result').innerText = 'Erro ao adicionar pagamento.';
     }
+    });
+    
+    document.getElementById('paymentsTableBody').addEventListener('click', async function(e) {
+        // Verifica se o botão clicado é um botão de exclusão
+        if (e.target.classList.contains('btn-delete')) {
+            const button = e.target;
+            const paymentId = button.dataset.id;
+            const paymentType = button.dataset.type;
+            
+            if (confirm('Tem certeza que deseja excluir este pagamento?')) {
+                try {
+                    const response = await fetch(`/Payment/DeletePayment/${paymentType}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'RequestVerificationToken': antiforgeryToken   // Inclui o token antifalsificação no cabeçalho
+
+                        }
+                    });
+                    if (response.ok) {
+                        // Remove a linha da tabela
+                        button.closest('tr').remove();
+                        document.getElementById('result').innerText = 'Pagamento excluido com sucesso!';
+                    } else {
+                        alert('Falha ao excluir o pagamento.');
+                    }
+                } catch (error) {
+                    console.log('Erro na requisição da exclusão:', error);
+                    alert('Ocorreu um erro de conexão.');
+                    
+                }
+            }
+        }
     });
     </script>
 } 
