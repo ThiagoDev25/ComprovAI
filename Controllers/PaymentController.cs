@@ -58,17 +58,20 @@ public class PaymentController : Controller
         return Ok();
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeletePaymentAsync([FromBody] int id)
+    [HttpDelete("Payment/DeletePayment/{id}/{type}")]
+
+    public async Task<IActionResult> DeletePayment(string id, PaymentModeModel type)
     {
         try
         {
-            
+            await _paymentService.DeletePaymentAsync(id, type); // Chama o serviço para deletar o pagamento
+            return Ok();
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
-        }
+            // Log do erro
+            Console.WriteLine($"Erro ao excluir pagamento: {e.Message}");
+            return StatusCode(500, "Ocorreu um erro interno ao tentar excuir o pagamento.");
+        }   
     }
 }
