@@ -55,7 +55,10 @@ public class PaymentController : Controller
             return BadRequest(ModelState);
 
         await _paymentService.AddPaymentAsync(payment);
-        return Ok();
+
+        double newTotal = await _paymentService.GetTotalPaymentsAsync();
+
+        return Ok(new { newPayment = payment, total = newTotal });
     }
 
     [HttpDelete("Payment/DeletePayment/{id}/{type}")]

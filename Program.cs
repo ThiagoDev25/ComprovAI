@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ComprovAI.Services;
-using DotNetEnv;
 
-Env.Load("./Environments/.env");
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,16 +9,16 @@ builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Program.cs
 
-var accountEndPoint = DotNetEnv.Env.GetString("ACCOUNTENDPOINT");
-var accountKey = DotNetEnv.Env.GetString("ACCOUNTKEY");
 
-
+var accountEndPoint = builder.Configuration["CosmosDb:AccountEndPoint"];
+var accountKey = builder.Configuration["CosmosDb:AccountKey"];
 
 var databaseName = builder.Configuration["CosmosDb:DatabaseName"];
 var containerName = builder.Configuration["CosmosDb:ContainerName"];
 
 builder.Services.AddDbContext<ComprovAI.Data.ApplicationDbContext>(options =>
     options.UseCosmos(accountEndPoint, accountKey, databaseName));
+
 
 var app = builder.Build();
 

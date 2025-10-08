@@ -47,9 +47,7 @@ public class PaymentService : IPaymentService
 
     public async Task DeletePaymentAsync(string id, PaymentType type)
     {
-        var paymentToDelete = await _context.Payments
-            .WithPartitionKey(type.ToString()) // Especifica a chave de partição
-            .FirstOrDefaultAsync(p => p.Id == id); // Busca pelo Id
+        var paymentToDelete = await _context.Payments.FindAsync(id, type);
 
         if (paymentToDelete != null)
         {
