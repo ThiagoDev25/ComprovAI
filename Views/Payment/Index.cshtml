@@ -148,7 +148,7 @@
             
             if (confirm('Tem certeza que deseja excluir este pagamento?')) {
                 try {
-                    const response = await fetch(`/Payment/DeletePayment/${paymentType}`, {
+                    const response = await fetch(`/Payment/DeletePayment/${paymentId}/${paymentType}`, {
                         method: 'DELETE',
                         headers: {
                             'RequestVerificationToken': antiforgeryToken   // Inclui o token antifalsificação no cabeçalho

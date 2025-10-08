@@ -1,4 +1,5 @@
 using ComprovAI.Models;
+using ComprovAI.Enums;
 
 namespace ComprovAI.Services;
 
@@ -8,5 +9,5 @@ public interface IPaymentService
     
     Task<double> GetTotalPaymentsAsync();
     Task AddPaymentAsync(PaymentModeModel payment);
-    Task DeletePaymentAsync(string id, PaymentModeModel type);
+    Task DeletePaymentAsync(string id, PaymentType type);
 }

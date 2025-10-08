@@ -45,7 +45,7 @@ public class PaymentService : IPaymentService
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeletePaymentAsync(string id, PaymentModeModel type)
+    public async Task DeletePaymentAsync(string id, PaymentType type)
     {
         var paymentToDelete = await _context.Payments
             .WithPartitionKey(type.ToString()) // Especifica a chave de partição

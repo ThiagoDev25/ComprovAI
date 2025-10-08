@@ -60,7 +60,7 @@ public class PaymentController : Controller
 
     [HttpDelete("Payment/DeletePayment/{id}/{type}")]
 
-    public async Task<IActionResult> DeletePayment(string id, PaymentModeModel type)
+    public async Task<IActionResult> DeletePayment(string id, PaymentType type)
     {
         try
         {

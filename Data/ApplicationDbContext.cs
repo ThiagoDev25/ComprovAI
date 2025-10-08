@@ -17,11 +17,15 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Configurações para o provedor Cosmos DB
-        modelBuilder.Entity<PaymentModeModel>()
-            .ToContainer("Payments") // <-- FORÇA O NOME DO CONTAINER
-            .HasPartitionKey(p => p.Type) // Particiona por Tipo de Pagamento (Débito/Crédito/Pix)
-            .Property(p => p.Id)
+        modelBuilder.Entity<PaymentModeModel>(entity =>
+        {
+            entity.ToContainer("Payments"); // <-- FORÇA O NOME DO CONTAINER
+            entity.HasPartitionKey(p => p.Type); // Particiona por Tipo de Pagamento (Débito/Crédito/Pix)
+            entity.Property(p => p.Type)
+                .HasConversion<string>();
+            entity.Property(p => p.Id)
             .ToJsonProperty("id");
+        });
         // No Cosmos DB, a chave primária deve ser mapeada para a propriedade 'id'
         // Embora seu modelo tenha 'Id', o EF Core para Cosmos DB cuida do mapeamento.
         // O Id deve ser string para Cosmos DB, mas o EF Core pode gerenciar isso.
