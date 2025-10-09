@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ComprovAI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ddd292d51b32be9f08fd28a34b59a243665bb9af")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5023dbc026ba9f285f375daf62d3634c43338aec")]
 [assembly: System.Reflection.AssemblyProductAttribute("ComprovAI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ComprovAI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
