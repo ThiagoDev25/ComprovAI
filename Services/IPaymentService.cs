@@ -8,6 +8,6 @@ public interface IPaymentService
     Task<List<PaymentModeModel>> GetAllPaymentsAsync();
     
     Task<double> GetTotalPaymentsAsync();
-    Task AddPaymentAsync(PaymentModeModel payment);
+    Task<PaymentModeModel> AddPaymentAsync(PaymentModeModel payment);
     Task DeletePaymentAsync(string id, PaymentType type);
 }

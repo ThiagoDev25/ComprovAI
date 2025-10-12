@@ -36,7 +36,7 @@
                 @Html.AntiForgeryToken()
                 <button type="submit" class="btn btn-success">Adicionar Pagamento</button>
             </form>
-            <div id="result"></div>
+            <div id="result">{{ resultMessage }}</div>
         </div>
 
         <div class="col-md-6 ps-4">
@@ -53,15 +53,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="payment in payments" :key="payment.id">
+                    <tr v-for="payment in payments" :key="payment.Id">
                         <td>{{ payment.Value.toLocaleString('pt-BR', { style: 'currency', 'currency': 'BRL' }) }}</td>
-                        <td>{{ payment.Type === 1  ? 'Débito' : (payment.Type === 2 ? 'Crédito' : 'Pix') }}</td>
-                        <td>{{ payment.CardBrand ? getCardBrandName(payment.CardBrand) : '' }}</td> <td>
+                        <td>{{ getTypeName(payment.Type) }}</td>
+                        <td>{{ getCardBrandName(payment.CardBrand) }}</td> <td>
                             <button class="btn btn-sm btn-danger" v-on:click="deletePayment(payment.Id, payment.Type)"> 
                                 Excluir
                             </button>
                         </td>
-                    </tr>
+                    </tr> 
                     </tbody>
 
                     <thead>
@@ -71,7 +71,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>@ViewBag.TotalPayments.ToString("C")</td>
+                        <td>{{ totalAmount }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -87,25 +87,36 @@
         // Script que atualiza a interface com Vue.js
         new Vue({
             el: '#payment-app',
-            data: {
+            data: { 
                 payments: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)),
                 newPayment: { Value: null, Type: null, CardBrand: null },
-                isCardBrandDisabled: true
+                isCardBrandDisabled: true,
+                resultMessage: ''
             },
             computed: {
                 totalAmount() {
-                    return this.payments.reduce((sum, payment) => sum + payment.Value, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                    return this.payments.reduce((sum, payment) => sum + payment.Value, 0)
+                        .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
                 }
             },
             watch: {
                 'newPayment.Type'(newType) {
-                    this.isCardBrandDisabled = newType !== 1 && newType !== 2;
+                    this.isCardBrandDisabled = newType === 3;
                     if (this.isCardBrandDisabled) {
                         this.newPayment.CardBrand = null;
                     }
                 }
             },
             methods: {
+                getTypeName(type) {
+                    switch (type) {
+                        case 1: return 'Débito';
+                        case 2: return 'Crédito';
+                        case 3: return 'Pix';
+                        default: return '';
+                    }
+                },
+                
                 getCardBrandName(brand) {
                     switch (brand) {
                         case 1: return 'Mastercard';
@@ -125,35 +136,47 @@
                             'Content-Type': 'application/json',
                             'RequestVerificationToken': token
                         },
-                        body: JSON.stringify(this.newPayment)
+                        body: JSON.stringify(this.newPayment)  
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            this.payments.push(data.payment);
+                    .then(response => response.ok) // 
+                    .then(data => {  
+                        if (data.success) {   
+                            this.payments.push(data.payment); 
                             this.newPayment = { Value: null, Type: null, CardBrand: null };
+                            this.resultMessage = 'Pagamento adicionado com Sucesso!';
                         } else {
-                            alert('Erro ao adicionar pagamento.');
-                        }
-                    });
-                },
-                deletePayment(id, type) {
-                    if (!confirm('Tem certeza que deseja excluir este pagamento?')) return;
-                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-                    fetch(`/Payment/DeletePayment/${id}/${type}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'RequestVerificationToken': token
+                            this.resultMessage = 'Erro ao adicionar pagamento.';
                         }
                     })
-                    .then(response => response.json())
-                    .then(data => {
+                        .catch (() => {
+                            this.resultMessage = 'Erro ao conectar com o servidor.';
+                        });
+                },
+                async deletePayment(id, type) {
+                    if (!confirm('Tem certeza que deseja excluir este pagamento?')) {
+                        return;
+                    }
+
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                    try { 
+                        const response = await fetch(`/Payment/DeletePayment/${id}/${type}`, { 
+                            method: 'DELETE',
+                            headers: {
+                                'RequestVerificationToken': token
+                            } 
+                        });
+                        const data = await response.json();
                         if (data.success) {
                             this.payments = this.payments.filter(p => p.Id !== id);
+                            this.resultMessage = 'Pagamento excluido com Sucesso!';
                         } else {
-                            alert('Erro ao excluir pagamento.');
+                            this.resultMessage = 'Erro ao excluir pagamento.';
                         }
-                    });
+                    } catch (error) {
+                        console.log('Erro na requisição da exclusão:', error);
+                        this.resultMessage = 'Ocorreu um erro de conexão';
+                    }
                 }
             }
         });

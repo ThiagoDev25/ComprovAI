@@ -39,10 +39,11 @@ public class PaymentService : IPaymentService
         return await _context.Payments.ToListAsync();
     }
 
-    public async Task AddPaymentAsync(PaymentModeModel payment) 
+    public async Task<PaymentModeModel> AddPaymentAsync(PaymentModeModel payment)
     {
         _context.Payments.Add(payment);
         await _context.SaveChangesAsync();
+        return payment; 
     }
 
     public async Task DeletePaymentAsync(string id, PaymentType type)

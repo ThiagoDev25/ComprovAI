@@ -54,27 +54,28 @@ public class PaymentController : Controller
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        await _paymentService.AddPaymentAsync(payment);
+        var savedPayment = await _paymentService.AddPaymentAsync(payment); 
 
-        double newTotal = await _paymentService.GetTotalPaymentsAsync();
+        // double newTotal = await _paymentService.GetTotalPaymentsAsync(); // o total não deveria ser calculado aqui, para resol
 
-        return Ok(new { newPayment = payment, total = newTotal });
+        return Json(new { success = true, payment = savedPayment /* total = newTotal */ });
     }
 
     [HttpDelete("Payment/DeletePayment/{id}/{type}")]
-
-    public async Task<IActionResult> DeletePayment(string id, PaymentType type)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeletePayment(string id, PaymentType type) // o header no front deve ficar assim: headers: { 'Content-Type': 'application/json' }
     {
         try
         {
-            await _paymentService.DeletePaymentAsync(id, type); // Chama o serviço para deletar o pagamento
-            return Ok();
+            await _paymentService.DeletePaymentAsync(id, type);
+            return Ok(new { success = true, message = "Pagamento excluído com sucesso." });
+            
         }
         catch (Exception e)
         {
             // Log do erro
             Console.WriteLine($"Erro ao excluir pagamento: {e.Message}");
-            return StatusCode(500, "Ocorreu um erro interno ao tentar excuir o pagamento.");
+            return StatusCode(500, new { success = false, message = e.Message });
         }   
     }
 }
