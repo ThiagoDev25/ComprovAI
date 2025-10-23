@@ -14,3 +14,10 @@ public class PaymentModeModel
     public string? ETag { get; set; }
     
 }
+
+public class PaymentTotalDto
+{
+    public PaymentType Type { get; set; }
+    public string Brand { get; set; } = string.Empty; 
+    public double Total { get; set; }
+}

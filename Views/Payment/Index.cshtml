@@ -40,47 +40,72 @@
         </div>
 
         <div class="col-md-6 ps-4">
+            @if (ViewBag.TotalsByType != null)
+            {
+                <div class="card mt-3">
+                    <h5 class="px-2 text-center">Totais por Tipo</h5>
+                    <table class="table mb-0">
+                        <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Bandeira</th>
+                            <th class="text-end">Valor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var t in (IEnumerable<ComprovAI.Models.PaymentTotalDto>)ViewBag.TotalsByType)
+                        {
+                            <tr>
+                                <td>@t.Type</td>
+                                <td>@t.Brand</td>
+                                <td class="text-end">@t.Total.ToString("C")</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
             <div class="card mb-2">
                 <h1 class="px-2 text-center"> Total </h1>
                 <h1 class="text-center  "><span class="badge  bg-primary text-light">@ViewBag.TotalPayments.ToString("C")</span></h1>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Valor</th>
-                        <th>Tipo</th>
-                        <th>Bandeira</th>
-                        <th>Ações</th>
-                    </tr>
-                    </thead>
-                    <tbody id="paymentsTableBody">
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.Value.ToString("C")</td>
-                            <td>@item.Type</td>
-                            <td>@item.CardBrand</td>
-                            <td>
-                                <button class="btn btn-sm btn-danger btn-delete"
-                                        data-id="@item.Id"
-                                        data-type="@((int)item.Type)">
-                                    Excluir
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-
-                    <thead>
-                    <tr>
-                        <th>Total</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>@ViewBag.TotalPayments.ToString("C")</td>
-                    </tr>
-                    </tbody>
-                </table>
+                @* <table class="table"> *@
+                @*     <thead> *@
+                @*     <tr> *@
+                @*         <th>Valor</th> *@
+                @*         <th>Tipo</th> *@
+                @*         <th>Bandeira</th> *@
+                @*         <th>Ações</th> *@
+                @*     </tr> *@
+                @*     </thead> *@
+                @*     <tbody id="paymentsTableBody"> *@
+                @*     @foreach (var item in Model) *@
+                @*     { *@
+                @*         <tr> *@
+                @*             <td>@item.Value.ToString("C")</td> *@
+                @*             <td>@item.Type</td> *@
+                @*             <td>@item.CardBrand</td> *@
+                @*             <td> *@
+                @*                 <button class="btn btn-sm btn-danger btn-delete" *@
+                @*                         data-id="@item.Id" *@
+                @*                         data-type="@((int)item.Type)"> *@
+                @*                     Excluir *@
+                @*                 </button> *@
+                @*             </td> *@
+                @*         </tr> *@
+                @*     } *@
+                @*     </tbody> *@
+                @* *@
+                @*     <thead> *@
+                @*     <tr> *@
+                @*         <th>Total</th> *@
+                @*     </tr> *@
+                @*     </thead> *@
+                @*     <tbody> *@
+                @*     <tr> *@
+                @*         <td>@ViewBag.TotalPayments.ToString("C")</td> *@
+                @*     </tr> *@
+                @*     </tbody> *@
+                @* </table> *@
             </div>
         </div>
     </div>

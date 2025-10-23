@@ -10,4 +10,6 @@ public interface IPaymentService
     Task<double> GetTotalPaymentsAsync();
     Task AddPaymentAsync(PaymentModeModel payment);
     Task DeletePaymentAsync(string id, PaymentType type);
+
+    Task<IEnumerable<PaymentTotalDto>> GetPaymentsTotalByTypeAsync();
 }
