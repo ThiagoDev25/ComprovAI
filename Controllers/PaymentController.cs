@@ -19,9 +19,14 @@ public class PaymentController : Controller
     {
         var payments = await _paymentService.GetAllPaymentsAsync();
         double total = await _paymentService.GetTotalPaymentsAsync();
+
+        var totalsByType = await _paymentService.GetPaymentsTotalByTypeAsync();
         ViewBag.TotalPayments = total;
+        ViewBag.TotalsByType = totalsByType;
         return View(payments);
     }
+    
+    
 
   //  public IActionResult Create()
   //  {

@@ -1,6 +1,7 @@
 using ComprovAI.Data;
 using ComprovAI.Models;
 using ComprovAI.Enums;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,6 +38,29 @@ public class PaymentService : IPaymentService
     public async Task<List<PaymentModeModel>> GetAllPaymentsAsync()
     {
         return await _context.Payments.ToListAsync();
+    }
+
+    public async Task<IEnumerable<PaymentTotalDto>> GetPaymentsTotalByTypeAsync()
+    {
+        var payments = (await GetAllPaymentsAsync()).ToList();
+
+        var grouped = payments
+            .GroupBy(p => new
+            {
+                p.Type,
+                Brand = p.Type == PaymentType.Pix ? "Pix" : (p.CardBrand.ToString() ?? "Unknown") 
+            })
+            .Select(g => new PaymentTotalDto
+            {
+                Type = g.Key.Type,
+                Brand = g.Key.Brand,
+                Total = g.Sum(x => x.Value)
+            })
+            .OrderBy(x => x.Type)
+            .ThenBy(x => x.Brand)
+            .ToList();
+
+        return grouped;
     }
 
     public async Task AddPaymentAsync(PaymentModeModel payment) 
